@@ -8,12 +8,19 @@
  */
 
 plugins {
-    // Apply the java-library plugin for API and implementation separation.
     `java-library`
 }
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.json:json:20230227")
+    }
+}
+
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
@@ -23,27 +30,31 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation("com.google.guava:guava:31.0.1-jre")
-
-
     implementation("org.jetbrains:annotations:23.0.0")
     implementation(files("/Users/ignatov/src/toolbox/feature/gateway-plugin-api/build/classes/java/main/"))
 }
 
-testing {
-    suites {
-        // Configure the built-in test suite
-        val test by getting(JvmTestSuite::class) {
-            // Use JUnit4 test framework
-            useJUnit("4.13.2")
-        }
-    }
+val generateJson = tasks.register<DefaultTask>("generateJson") {
+    // Define the data class structure
+    val personJson = org.json.JSONObject()
+    val project = project.rootProject
+
+    personJson.put("id", project.name)
+    personJson.put("version", project.version)
+
+    val outputFile = File("$buildDir/generated-json/extension.json")
+    outputFile.writeText(personJson.toString())
 }
 
+version = "0.1"
+
 tasks.register<Zip>("createZip") {
-    dependsOn(tasks.assemble)
+    dependsOn(tasks.assemble, generateJson)
     val compileClasspath = configurations.compileClasspath
     from(compileClasspath.get().files.filter { it.extension == "jar" })
     from(file("$buildDir/libs/lib.jar"))
-    archiveFileName.set("${project.rootProject.name}.zip")
+    from(file("$buildDir/generated-json/extension.jar"))
+    val rootProject = project.rootProject
+    archiveFileName.set("${rootProject.name}-${rootProject.version}.zip")
     destinationDirectory.set(file("$buildDir/libs"))
 }

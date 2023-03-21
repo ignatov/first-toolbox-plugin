@@ -50,11 +50,10 @@ public class ChungaChangaGatewayExtension implements GatewayExtension {
 
             @Override
             public void newInstancePage() {
-
             }
 
             @Override
-            public void close() throws IOException {
+            public void close() {
 
             }
         };
