@@ -16,11 +16,6 @@ repositories {
 }
 
 dependencies {
-    // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api("org.apache.commons:commons-math3:3.6.1")
-
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation("com.google.guava:guava:31.0.1-jre")
     implementation("org.jetbrains:annotations:23.0.0")
     implementation(files("/Users/ignatov/src/toolbox/feature/gateway-plugin-api/build/classes/java/main/"))
 }
@@ -41,20 +36,20 @@ val generateJson = tasks.register<DefaultTask>("generateJson") {
             to = "1.2",
         )
     )
-    val outputFile = File("$buildDir/generated-json/extension.json")
+    val outputFile = File("${project.buildDir}/generated-json/extension.json")
     outputFile.parentFile.mkdirs()
     outputFile.writeText(ext.toJson())
 }
 
-version = "0.1"
+version = "0.2"
 
 tasks.register<Zip>("createZip") {
     dependsOn(tasks.assemble, generateJson)
     val compileClasspath = configurations.compileClasspath
     from(compileClasspath.get().files.filter { it.extension == "jar" })
-    from(file("$buildDir/libs/lib.jar"))
-    from(file("$buildDir/generated-json/extension.jar"))
-    val rootProject = project.rootProject
-    archiveFileName.set("${rootProject.name}-${rootProject.version}.zip")
+    val name = "${rootProject.name}-${rootProject.version}"
+    from(file("${rootProject.buildDir}/libs/$name.jar"))
+    from(file("${rootProject.buildDir}/generated-json/extension.json"))
+    archiveFileName.set("$name.zip")
     destinationDirectory.set(file("$buildDir/libs"))
 }

@@ -1,8 +1,5 @@
 package first.toolbox.plugin;
 
-import com.google.common.graph.Graph;
-import com.google.common.graph.GraphBuilder;
-import com.google.common.graph.ImmutableGraph;
 import com.jetbrains.toolbox.feature.gateway.GatewayExtension;
 import com.jetbrains.toolbox.feature.gateway.RemoteEnvironmentConsumer;
 import com.jetbrains.toolbox.feature.gateway.RemoteProvider;
@@ -14,10 +11,6 @@ import java.io.InputStream;
 public class ChungaChangaGatewayExtension implements GatewayExtension {
     @Override
     public @NotNull RemoteProvider createRemoteProviderPluginInstance(@NotNull RemoteEnvironmentConsumer remoteEnvironmentConsumer) {
-        Graph graph = GraphBuilder.directed().build(); // just to validate class loading
-
-        System.out.println("MY GRAPH: " + graph);
-
         return new RemoteProvider() {
             @Override
             public @NotNull String getId() {
