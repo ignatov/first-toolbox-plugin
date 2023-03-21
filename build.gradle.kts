@@ -11,15 +11,6 @@ plugins {
     `java-library`
 }
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.json:json:20230227")
-    }
-}
-
 repositories {
     mavenCentral()
 }
@@ -35,15 +26,24 @@ dependencies {
 }
 
 val generateJson = tasks.register<DefaultTask>("generateJson") {
-    // Define the data class structure
-    val personJson = org.json.JSONObject()
     val project = project.rootProject
 
-    personJson.put("id", project.name)
-    personJson.put("version", project.version)
-
+    val ext = Extension(
+        id = project.name,
+        version = project.version.toString(),
+        meta = Meta(
+            readableName = "Chunga Change",
+            description = "Chunga Changa plugin",
+            vendor = "JetBrains",
+        ),
+        compatibleVersionRange = CompatibleVersionRange(
+            from = "1.1",
+            to = "1.2",
+        )
+    )
     val outputFile = File("$buildDir/generated-json/extension.json")
-    outputFile.writeText(personJson.toString())
+    outputFile.parentFile.mkdirs()
+    outputFile.writeText(ext.toJson())
 }
 
 version = "0.1"
