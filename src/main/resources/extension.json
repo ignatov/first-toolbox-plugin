@@ -1,0 +1,13 @@
+{
+    "id": "chunga.changa",
+    "version": "0.2",
+    "meta": {
+        "readableName": "Chunga Change",
+        "description": "Chunga Changa plugin",
+        "vendor": "JetBrains"
+    },
+    "compatibleVersionRange": {
+        "from": "1.26.0",
+        "to": "1.28.0"
+    }
+}
