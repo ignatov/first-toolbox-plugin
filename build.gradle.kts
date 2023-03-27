@@ -41,7 +41,7 @@ dependencies {
 //    outputFile.writeText(ext.toJson())
 //}
 
-version = "0.2"
+version = "0.3"
 
 tasks.register<Zip>("createZip") {
     dependsOn(tasks.assemble)

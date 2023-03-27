@@ -14,12 +14,12 @@ public class ChungaChangaGatewayExtension implements GatewayExtension {
         return new RemoteProvider() {
             @Override
             public @NotNull String getId() {
-                return "CHUNGA_CHANGA";
+                return "chunga.changa";
             }
 
             @Override
             public @NotNull String getName() {
-                return "ChungaChanga";
+                return "Chunga Changa";
             }
 
             @Override
@@ -38,11 +38,7 @@ public class ChungaChangaGatewayExtension implements GatewayExtension {
 
             @Override
             public boolean isSingleEnvironment() {
-                return true;
-            }
-
-            @Override
-            public void newInstancePage() {
+                return false;
             }
 
             @Override

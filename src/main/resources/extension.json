@@ -1,8 +1,8 @@
 {
     "id": "chunga.changa",
-    "version": "0.2",
+    "version": "0.3",
     "meta": {
-        "readableName": "Chunga Change",
+        "readableName": "Chunga Changa",
         "description": "Chunga Changa plugin",
         "vendor": "JetBrains"
     },
